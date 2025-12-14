@@ -1,0 +1,7 @@
+# Spring Boot Application Configuration
+spring:
+  # Application Settings
+  application:
+    name: balancee
+  profiles:
+    active: ${ENVIRONMENT:dev}
