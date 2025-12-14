@@ -1,4 +1,4 @@
-package com.github.arthurscarpin.balancee.domain.transaction;
+package com.github.arthurscarpin.balancee.domain.transaction.model;
 
 import com.github.arthurscarpin.balancee.domain.category.model.Category;
 import com.github.arthurscarpin.balancee.domain.user.model.User;
