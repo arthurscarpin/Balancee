@@ -1,0 +1,20 @@
+spring:
+  # H2 Database Configuration
+  h2:
+    console:
+      enabled: true
+  # Datasource Configuration
+  datasource:
+    url: ${DATABASE_URL}
+    driver: org.h2.Driver
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  # Hibernate JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+  # Flyway Database Migration Configuration
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
