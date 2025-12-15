@@ -2,6 +2,7 @@ package com.github.arthurscarpin.balancee.domain.user.service;
 
 import com.github.arthurscarpin.balancee.domain.user.model.User;
 import com.github.arthurscarpin.balancee.domain.user.repository.UserRepository;
+import com.github.arthurscarpin.balancee.exception.BusinessException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class UserService {
         if (emailExists.isPresent()) {
             return repository.save(user);
         } else {
-            return null;
+            throw new BusinessException("The email already exists!");
         }
     }
 
@@ -33,7 +34,7 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> userExists = repository.findById(id);
-        return userExists.orElse(null);
+        return userExists.orElseThrow(() -> new BusinessException("User not found!"));
     }
 
     @Transactional
@@ -43,7 +44,7 @@ public class UserService {
             userUpdate.setId(id);
             return repository.save(userUpdate);
         } else {
-            return null;
+            throw new BusinessException("User not found!");
         }
     }
 
