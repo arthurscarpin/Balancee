@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
@@ -16,7 +15,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             FROM Transaction t
             WHERE t.user.id = :userId
             """)
-    Optional<List<Transaction>> findByUserId(@Param("userId") Long userId);
+    List<Transaction> findByUserId(@Param("userId") Long userId);
 
     @Query (value = """
             SELECT t
@@ -24,7 +23,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             WHERE t.user.id = :userId
             AND t.category.type = :type
             """)
-    Optional<List<Transaction>> findByType(@Param("userId") Long userId, @Param("type") CategoryType type);
+    List<Transaction> findByType(@Param("userId") Long userId, @Param("type") CategoryType type);
 
     @Query(value = """
             SELECT t
@@ -33,7 +32,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             AND t.category.type = :type
             AND YEAR(t.date) = :year AND MONTH(t.date) = :month
             """)
-    Optional<List<Transaction>> findByTypeYearAndMonth(@Param("userId") Long userId, @Param("type") CategoryType type, @Param("year") int year, @Param("month") int month);
+    List<Transaction> findByTypeYearAndMonth(@Param("userId") Long userId, @Param("type") CategoryType type, @Param("year") int year, @Param("month") int month);
 
     @Query(value = """
             SELECT t

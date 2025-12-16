@@ -3,8 +3,6 @@ package com.github.arthurscarpin.balancee.domain.category.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.arthurscarpin.balancee.domain.transaction.model.Transaction;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,11 +23,9 @@ public class Category {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
     @Column(name = "name")
     private String name;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private CategoryType type;

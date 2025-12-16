@@ -1,6 +1,8 @@
 package com.github.arthurscarpin.balancee.domain.transaction.controller;
 
 import com.github.arthurscarpin.balancee.domain.category.model.CategoryType;
+import com.github.arthurscarpin.balancee.domain.transaction.dto.TransactionRequestDTO;
+import com.github.arthurscarpin.balancee.domain.transaction.dto.TransactionResponseDTO;
 import com.github.arthurscarpin.balancee.domain.transaction.model.Transaction;
 import com.github.arthurscarpin.balancee.domain.transaction.service.TransactionService;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
@@ -21,9 +23,9 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPostTransaction(@RequestBody Transaction transaction) {
+    public ResponseEntity<?> createPostTransaction(@RequestBody TransactionRequestDTO transaction) {
         try {
-            Transaction transactionCreated = service.create(transaction);
+            TransactionResponseDTO transactionCreated = service.create(transaction);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(transactionCreated);
         } catch (BusinessException e) {
@@ -34,14 +36,14 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<?> findAllGetTransaction() {
-        List<Transaction> transactions = service.findAll();
+        List<TransactionResponseDTO> transactions = service.findAll();
         return ResponseEntity.ok(transactions);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findByIdGetTransaction(@PathVariable Long id) {
         try {
-            Transaction transaction = service.findById(id);
+            TransactionResponseDTO transaction = service.findById(id);
             return ResponseEntity.ok(transaction);
         } catch (BusinessException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -52,7 +54,7 @@ public class TransactionController {
     @GetMapping(value = "/user/{userId}", params = {"!type", "!year", "!month"})
     public ResponseEntity<?> findByUserIdGetTransaction(@PathVariable Long userId) {
         try {
-            List<Transaction> transaction = service.findByUserId(userId);
+            List<TransactionResponseDTO> transaction = service.findByUserId(userId);
             return ResponseEntity.ok(transaction);
         } catch (BusinessException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -65,7 +67,7 @@ public class TransactionController {
             @PathVariable Long userId,
             @RequestParam CategoryType type) {
         try {
-            List<Transaction> transaction = service.findByUserIdAndType(userId, type);
+            List<TransactionResponseDTO> transaction = service.findByUserIdAndType(userId, type);
             return ResponseEntity.ok(transaction);
         } catch (BusinessException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -80,7 +82,7 @@ public class TransactionController {
             @RequestParam int year,
             @RequestParam int month) {
         try {
-            List<Transaction> transaction = service.findByUserIdAndYearAndMonth(userId, type, year, month);
+            List<TransactionResponseDTO> transaction = service.findByUserIdAndYearAndMonth(userId, type, year, month);
             return ResponseEntity.ok(transaction);
         } catch (BusinessException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -116,9 +118,9 @@ public class TransactionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateByIdPutTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
+    public ResponseEntity<?> updateByIdPutTransaction(@PathVariable Long id, @RequestBody TransactionRequestDTO transaction) {
         try {
-            Transaction transactionUpdated = service.updateById(id, transaction);
+            TransactionResponseDTO transactionUpdated = service.updateById(id, transaction);
             return ResponseEntity.ok(transactionUpdated);
         } catch (BusinessException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

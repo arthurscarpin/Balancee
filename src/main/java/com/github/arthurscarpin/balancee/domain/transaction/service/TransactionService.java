@@ -1,68 +1,98 @@
 package com.github.arthurscarpin.balancee.domain.transaction.service;
 
+import com.github.arthurscarpin.balancee.domain.category.model.Category;
 import com.github.arthurscarpin.balancee.domain.category.model.CategoryType;
+import com.github.arthurscarpin.balancee.domain.category.repository.CategoryRepository;
+import com.github.arthurscarpin.balancee.domain.transaction.dto.TransactionRequestDTO;
+import com.github.arthurscarpin.balancee.domain.transaction.dto.TransactionResponseDTO;
+import com.github.arthurscarpin.balancee.domain.transaction.mapper.TransactionMapper;
 import com.github.arthurscarpin.balancee.domain.transaction.model.Transaction;
 import com.github.arthurscarpin.balancee.domain.transaction.repository.TransactionRepository;
+import com.github.arthurscarpin.balancee.domain.user.model.User;
+import com.github.arthurscarpin.balancee.domain.user.repository.UserRepository;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.EnumSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
 
-    private final TransactionRepository repository;
+    private final TransactionRepository transactionRepository;
 
-    public TransactionService(TransactionRepository repository) {
-        this.repository = repository;
+    private final CategoryRepository categoryRepository;
+
+    private final UserRepository userRepository;
+
+    private final TransactionMapper mapper;
+
+    public TransactionService(TransactionRepository transactionRepository, CategoryRepository categoryRepository, UserRepository userRepository, TransactionMapper mapper) {
+        this.transactionRepository = transactionRepository;
+        this.categoryRepository = categoryRepository;
+        this.userRepository = userRepository;
+        this.mapper = mapper;
     }
 
     @Transactional
-    public Transaction create(Transaction transaction) {
-        if (transaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
-            return repository.save(transaction);
-        } else {
+    public TransactionResponseDTO create(TransactionRequestDTO transactionDTO) {
+        User user = userRepository.findById(transactionDTO.userId())
+                .orElseThrow(() -> new BusinessException("User not found!"));
+        Category category = categoryRepository.findById(transactionDTO.categoryId())
+                .orElseThrow(() -> new BusinessException("Category not found!"));
+        if (transactionDTO.amount().compareTo(BigDecimal.ZERO) <= 0) {
             throw new BusinessException("Invalid amount! The amount must be greater than zero.");
         }
+        Transaction transactionCreated = transactionRepository.save(mapper.map(transactionDTO, user, category));
+        return mapper.map(transactionCreated);
     }
 
-    public List<Transaction> findAll() {
-        return repository.findAll();
+    public List<TransactionResponseDTO> findAll() {
+        List<Transaction> transactions = transactionRepository.findAll();
+        return transactions.stream()
+                .map(mapper::map)
+                .collect(Collectors.toList());
     }
 
-    public Transaction findById(Long id) {
-        Optional<Transaction> transactionExists = repository.findById(id);
-        return transactionExists.orElseThrow(() -> new BusinessException("Transaction not found!"));
+    public TransactionResponseDTO findById(Long id) {
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Transaction not found!"));
+        return mapper.map(transaction);
     }
 
-    public List<Transaction> findByUserId(Long id) {
-        Optional<List<Transaction>> transactionExists = repository.findByUserId(id);
-        return transactionExists.orElseThrow(() -> new BusinessException("Transaction not found!"));
+    public List<TransactionResponseDTO> findByUserId(Long id) {
+        List<Transaction> transactions = transactionRepository.findByUserId(id);
+        return transactions.stream()
+                .map(mapper::map)
+                .collect(Collectors.toList());
     }
 
-    public List<Transaction> findByUserIdAndType(Long userId, CategoryType type) {
-        if (!type.equals(CategoryType.INCOME) && !type.equals(CategoryType.EXPENSE)) {
+    public List<TransactionResponseDTO> findByUserIdAndType(Long userId, CategoryType type) {
+        boolean validType = EnumSet.of(CategoryType.INCOME, CategoryType.EXPENSE).contains(type);
+        if (!validType) {
             throw new BusinessException("Category mismatch! Please a valid category \"INCOME\" and \"EXPENSE\"");
-        } else {
-            Optional<List<Transaction>> transactionExists = repository.findByType(userId, type);
-            return transactionExists.orElseThrow(() -> new BusinessException("Transaction not found!"));
         }
+        List<Transaction> transactions = transactionRepository.findByType(userId, type);
+        return transactions.stream()
+                .map(mapper::map)
+                .collect(Collectors.toList());
     }
 
-    public List<Transaction> findByUserIdAndYearAndMonth(Long id, CategoryType type, int year, int month) {
-        if (!type.equals(CategoryType.INCOME) && !type.equals(CategoryType.EXPENSE)) {
+    public List<TransactionResponseDTO> findByUserIdAndYearAndMonth(Long userId, CategoryType type, int year, int month) {
+        if (!EnumSet.of(CategoryType.INCOME, CategoryType.EXPENSE).contains(type)) {
             throw new BusinessException("Category mismatch! Please a valid category \"INCOME\" and \"EXPENSE\"");
-        } else {
-            Optional<List<Transaction>> transactionExists = repository.findByTypeYearAndMonth(id, type, year, month);
-            return transactionExists.orElseThrow(() -> new BusinessException("Transaction not found!"));
         }
+        List<Transaction> transactions = transactionRepository.findByTypeYearAndMonth(userId, type, year, month);
+        return transactions.stream()
+                .map(mapper::map)
+                .collect(Collectors.toList());
     }
 
     public String calculateTotalExpense(Long id, int year, int month) {
-        List<Transaction> transactions = repository.findByTypeExpenseYearAndMonth(id, year, month);
+        List<Transaction> transactions = transactionRepository.findByTypeExpenseYearAndMonth(id, year, month);
         BigDecimal totalExpenses = transactions.stream()
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -70,7 +100,7 @@ public class TransactionService {
     }
 
     public String calculateTotalIncome(Long id, int year, int month) {
-        List<Transaction> transactions = repository.findByTypeIncomeYearAndMonth(id, year, month);
+        List<Transaction> transactions = transactionRepository.findByTypeIncomeYearAndMonth(id, year, month);
         BigDecimal totalIncome = transactions.stream()
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -78,12 +108,12 @@ public class TransactionService {
     }
 
     public String calculateMonthlyBalance(Long id, int year, int month) {
-        List<Transaction> transactionsExpense = repository.findByTypeExpenseYearAndMonth(id, year, month);
+        List<Transaction> transactionsExpense = transactionRepository.findByTypeExpenseYearAndMonth(id, year, month);
         BigDecimal totalExpense = transactionsExpense.stream()
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        List<Transaction> transactionsIncome = repository.findByTypeIncomeYearAndMonth(id, year, month);
+        List<Transaction> transactionsIncome = transactionRepository.findByTypeIncomeYearAndMonth(id, year, month);
         BigDecimal totalIncome = transactionsIncome.stream()
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -93,23 +123,26 @@ public class TransactionService {
     }
 
     @Transactional
-    public Transaction updateById(Long id, Transaction transactionUpdate) {
-        Optional<Transaction> transactionExists = repository.findById(id);
-        if (transactionExists.isPresent()) {
-            transactionUpdate.setId(id);
-            return repository.save(transactionUpdate);
-        } else {
-            throw new BusinessException("Transaction not found!");
-        }
+    public TransactionResponseDTO updateById(Long id, TransactionRequestDTO transactionDTO) {
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Transaction not found!"));
+        User user = userRepository.findById(transactionDTO.userId())
+                .orElseThrow(() -> new BusinessException("User not found!"));
+        Category category = categoryRepository.findById(transactionDTO.categoryId())
+                .orElseThrow(() -> new BusinessException("Category not found!"));
+        transaction.setDescription(transactionDTO.description());
+        transaction.setAmount(transactionDTO.amount());
+        transaction.setDate(transactionDTO.date());
+        transaction.setUser(user);
+        transaction.setCategory(category);
+        return mapper.map(transactionRepository.save(transaction));
     }
 
     @Transactional
     public void deleteById(Long id) {
-        Optional<Transaction> transactionExists = repository.findById(id);
-        if (transactionExists.isPresent()) {
-            repository.deleteById(id);
-        } else {
+        if (transactionRepository.findById(id).isEmpty()) {
             throw new BusinessException("Transaction not found!");
         }
+        transactionRepository.deleteById(id);
     }
 }
