@@ -28,8 +28,7 @@ public class CategoryService {
 
     @Transactional
     public CategoryResponseDTO create(CategoryRequestDTO categoryDTO) {
-        boolean validType = EnumSet.of(CategoryType.INCOME, CategoryType.EXPENSE).contains(categoryDTO.type());
-        if (!validType) {
+        if (!EnumSet.of(CategoryType.INCOME, CategoryType.EXPENSE).contains(categoryDTO.type())) {
             throw new BusinessException("Invalid type!");
         }
         Category categoryCreated = repository.save(mapper.map(categoryDTO));
