@@ -11,12 +11,43 @@ import java.util.Optional;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId")
+    @Query(value = """
+            SELECT t
+            FROM Transaction t
+            WHERE t.user.id = :userId
+            """)
     Optional<List<Transaction>> findByUserId(@Param("userId") Long userId);
 
-    @Query ("SELECT t FROM Transaction t WHERE t.user.id = :userId AND t.category.type = :type")
+    @Query (value = """
+            SELECT t
+            FROM Transaction t
+            WHERE t.user.id = :userId
+            AND t.category.type = :type
+            """)
     Optional<List<Transaction>> findByType(@Param("userId") Long userId, @Param("type") CategoryType type);
 
-    @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId AND YEAR(t.date) = :year AND MONTH(t.date) = :month")
-    Optional<List<Transaction>> findByYearAndMonth(@Param("userId") Long userId, @Param("year") int year, @Param("month") int month);
+    @Query(value = """
+            SELECT t
+            FROM Transaction t
+            WHERE t.user.id = :userId
+            AND t.category.type = :type
+            AND YEAR(t.date) = :year AND MONTH(t.date) = :month
+            """)
+    Optional<List<Transaction>> findByTypeYearAndMonth(@Param("userId") Long userId, @Param("type") CategoryType type, @Param("year") int year, @Param("month") int month);
+
+    @Query(value = """
+            SELECT t
+            FROM Transaction t
+            WHERE t.user.id = :userId
+            AND t.category.type = 'EXPENSE'
+            AND YEAR(t.date) = :year AND MONTH(t.date) = :month""")
+    List<Transaction> findByTypeExpenseYearAndMonth(@Param("userId") Long userId, @Param("year") int year, @Param("month") int month);
+
+    @Query(value = """
+            SELECT t
+            FROM Transaction t
+            WHERE t.user.id = :userId
+            AND t.category.type = 'INCOME'
+            AND YEAR(t.date) = :year AND MONTH(t.date) = :month""")
+    List<Transaction> findByTypeIncomeYearAndMonth(@Param("userId") Long userId, @Param("year") int year, @Param("month") int month);
 }
