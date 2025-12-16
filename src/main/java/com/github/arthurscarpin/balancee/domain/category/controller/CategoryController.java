@@ -1,5 +1,7 @@
 package com.github.arthurscarpin.balancee.domain.category.controller;
 
+import com.github.arthurscarpin.balancee.domain.category.dto.CategoryRequestDTO;
+import com.github.arthurscarpin.balancee.domain.category.dto.CategoryResponseDTO;
 import com.github.arthurscarpin.balancee.domain.category.model.Category;
 import com.github.arthurscarpin.balancee.domain.category.service.CategoryService;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
@@ -21,9 +23,9 @@ public class CategoryController {
     }
 
     @PostMapping
-    ResponseEntity<?> createPostCategory(@RequestBody Category category) {
+    ResponseEntity<?> createPostCategory(@RequestBody CategoryRequestDTO category) {
         try {
-            Category categoryCreated = service.create(category);
+            CategoryResponseDTO categoryCreated = service.create(category);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(categoryCreated);
         } catch (BusinessException e) {
@@ -34,14 +36,14 @@ public class CategoryController {
 
     @GetMapping
     ResponseEntity<?> findAllGetCategory() {
-        List<Category> categories = service.findAll();
+        List<CategoryResponseDTO> categories = service.findAll();
         return ResponseEntity.ok(categories);
     }
 
     @GetMapping("/{id}")
     ResponseEntity<?> findByIdGetCategory(@PathVariable Long id) {
         try {
-            Category category = service.findById(id);
+            CategoryResponseDTO category = service.findById(id);
             return ResponseEntity.ok(category);
         } catch (BusinessException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -50,9 +52,9 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> updateByIdPutCategory(@PathVariable Long id, @RequestBody Category category) {
+    ResponseEntity<?> updateByIdPutCategory(@PathVariable Long id, @RequestBody CategoryRequestDTO category) {
         try {
-            Category categoryUpdated = service.updateById(id, category);
+            CategoryResponseDTO categoryUpdated = service.updateById(id, category);
             return ResponseEntity.ok(categoryUpdated);
         } catch (BusinessException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
