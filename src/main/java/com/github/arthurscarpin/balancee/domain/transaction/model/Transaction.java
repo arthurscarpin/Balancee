@@ -40,11 +40,6 @@ public class Transaction {
     @Column(name = "date")
     private LocalDate date;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    private TransactionType type;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
