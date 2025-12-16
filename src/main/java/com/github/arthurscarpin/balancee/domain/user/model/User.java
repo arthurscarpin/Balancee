@@ -26,11 +26,11 @@ public class User {
     private Long id;
 
     @NotBlank
-    @Email
     @Column(name = "name")
     private String name;
 
     @NotBlank
+    @Email
     @Column(name = "email", unique = true)
     private String email;
 
