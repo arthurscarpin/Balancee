@@ -1,7 +1,7 @@
 package com.github.arthurscarpin.balancee.domain.transaction.controller;
 
+import com.github.arthurscarpin.balancee.domain.category.model.CategoryType;
 import com.github.arthurscarpin.balancee.domain.transaction.model.Transaction;
-import com.github.arthurscarpin.balancee.domain.transaction.model.TransactionType;
 import com.github.arthurscarpin.balancee.domain.transaction.service.TransactionService;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
 import org.springframework.http.HttpStatus;
@@ -49,7 +49,7 @@ public class TransactionController {
         }
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping(value = "/user/{userId}", params = {"!type", "!year", "!month"})
     public ResponseEntity<?> findByUserIdGetTransaction(@PathVariable Long userId) {
         try {
             List<Transaction> transaction = service.findByUserId(userId);
@@ -60,10 +60,10 @@ public class TransactionController {
         }
     }
 
-    @GetMapping("/{userId}/users")
+    @GetMapping(value = "/user/{userId}", params = "type")
     public ResponseEntity<?> findByUserIdAndTypeGetTransaction(
             @PathVariable Long userId,
-            @RequestParam TransactionType type) {
+            @RequestParam CategoryType type) {
         try {
             List<Transaction> transaction = service.findByUserIdAndType(userId, type);
             return ResponseEntity.ok(transaction);
@@ -73,7 +73,7 @@ public class TransactionController {
         }
     }
 
-    @GetMapping("/{userId}/users/date")
+    @GetMapping(value = "/user/{userId}", params = {"year", "month"})
     public ResponseEntity<?> findByUserIdAndYearAndMonthGetTransaction(
             @PathVariable Long userId,
             @RequestParam int year,
