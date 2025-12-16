@@ -50,6 +50,11 @@ public class CategoryService {
 
     @Transactional
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        Optional<Category> categoryExists = repository.findById(id);
+        if (categoryExists.isPresent()) {
+            repository.deleteById(id);
+        } else {
+            throw new BusinessException("Category not found!");
+        }
     }
 }
