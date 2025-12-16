@@ -47,16 +47,16 @@ public class TransactionService {
         return transactionExists.orElseThrow(() -> new BusinessException("Transaction not found!"));
     }
 
-    public List<Transaction> findByType(Long id, Transaction transaction) {
-        if (transaction.getType() != TransactionType.INCOME && transaction.getType() != TransactionType.EXPENSE) {
+    public List<Transaction> findByUserIdAndType(Long userId, TransactionType type) {
+        if (!type.equals(TransactionType.INCOME) && !type.equals(TransactionType.EXPENSE)) {
             throw new BusinessException("Category mismatch! Please a valid category \"INCOME\" and \"EXPENSE\"");
         } else {
-            Optional<List<Transaction>> transactionExists = repository.findByType(id, transaction.getType().name());
+            Optional<List<Transaction>> transactionExists = repository.findByType(userId, type);
             return transactionExists.orElseThrow(() -> new BusinessException("Transaction not found!"));
         }
     }
 
-    public List<Transaction> findByYearAndMonth(Long id, int month, int year) {
+    public List<Transaction> findByUserIdAndYearAndMonth(Long id, int year, int month) {
         Optional<List<Transaction>> transactionExists = repository.findByYearAndMonth(id, year, month);
         return transactionExists.orElseThrow(() -> new BusinessException("Transaction not found!"));
     }
@@ -74,6 +74,11 @@ public class TransactionService {
 
     @Transactional
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        Optional<Transaction> transactionExists = repository.findById(id);
+        if (transactionExists.isPresent()) {
+            repository.deleteById(id);
+        } else {
+            throw new BusinessException("Transaction not found!");
+        }
     }
 }

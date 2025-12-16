@@ -21,7 +21,7 @@ public class UserService {
     @Transactional
     public User create(User user) {
         Optional<User> emailExists = repository.findByEmail(user.getEmail());
-        if (emailExists.isPresent()) {
+        if (emailExists.equals(Optional.empty())) {
             return repository.save(user);
         } else {
             throw new BusinessException("The email already exists!");
@@ -41,8 +41,13 @@ public class UserService {
     public User updateById(Long id, User userUpdate) {
         Optional<User> userExists = repository.findById(id);
         if (userExists.isPresent()) {
-            userUpdate.setId(id);
-            return repository.save(userUpdate);
+            Optional<User> emailExists = repository.findByEmail(userUpdate.getEmail());
+            if (emailExists.equals(Optional.empty())) {
+                userUpdate.setId(id);
+                return repository.save(userUpdate);
+            } else {
+                throw new BusinessException("The email already exists!");
+            }
         } else {
             throw new BusinessException("User not found!");
         }
@@ -50,6 +55,11 @@ public class UserService {
 
     @Transactional
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        Optional<User> userExists = repository.findById(id);
+        if (userExists.isPresent()) {
+            repository.deleteById(id);
+        } else {
+            throw new BusinessException("User not found!");
+        }
     }
 }

@@ -40,7 +40,7 @@ public class Transaction {
     @Column(name = "date")
     private LocalDate date;
 
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private TransactionType type;
