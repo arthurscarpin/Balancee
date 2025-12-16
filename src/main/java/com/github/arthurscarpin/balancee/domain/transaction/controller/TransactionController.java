@@ -73,18 +73,46 @@ public class TransactionController {
         }
     }
 
-    @GetMapping(value = "/user/{userId}", params = {"year", "month"})
+    @GetMapping(value = "/user/{userId}", params = {"type", "year", "month"})
     public ResponseEntity<?> findByUserIdAndYearAndMonthGetTransaction(
             @PathVariable Long userId,
+            @RequestParam CategoryType type,
             @RequestParam int year,
             @RequestParam int month) {
         try {
-            List<Transaction> transaction = service.findByUserIdAndYearAndMonth(userId, year, month);
+            List<Transaction> transaction = service.findByUserIdAndYearAndMonth(userId, type, year, month);
             return ResponseEntity.ok(transaction);
         } catch (BusinessException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());
         }
+    }
+
+    @GetMapping("/total-expense/{userId}")
+    public ResponseEntity<?> calculateTotalExpenseGetTransaction(
+            @PathVariable Long userId,
+            @RequestParam int year,
+            @RequestParam int month) {
+        String totalExpenses = service.calculateTotalExpense(userId, year, month);
+        return ResponseEntity.ok(totalExpenses);
+    }
+
+    @GetMapping("/total-income/{userId}")
+    public ResponseEntity<?> calculateTotalIncomeGetTransaction(
+            @PathVariable Long userId,
+            @RequestParam int year,
+            @RequestParam int month) {
+        String totalIncomes = service.calculateTotalIncome(userId, year, month);
+        return ResponseEntity.ok(totalIncomes);
+    }
+
+    @GetMapping("/monthly-balance/{userId}")
+    public ResponseEntity<?> calculateMonthlyBalanceGetTransaction(
+            @PathVariable Long userId,
+            @RequestParam int year,
+            @RequestParam int month) {
+        String monthlyBalance = service.calculateMonthlyBalance(userId, year, month);
+        return ResponseEntity.ok(monthlyBalance);
     }
 
     @PutMapping("/{id}")
