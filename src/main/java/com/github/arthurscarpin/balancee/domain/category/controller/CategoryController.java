@@ -2,13 +2,11 @@ package com.github.arthurscarpin.balancee.domain.category.controller;
 
 import com.github.arthurscarpin.balancee.domain.category.dto.CategoryRequestDTO;
 import com.github.arthurscarpin.balancee.domain.category.dto.CategoryResponseDTO;
-import com.github.arthurscarpin.balancee.domain.category.model.Category;
 import com.github.arthurscarpin.balancee.domain.category.service.CategoryService;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 import java.util.List;
 
