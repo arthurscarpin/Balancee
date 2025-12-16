@@ -1,7 +1,7 @@
 package com.github.arthurscarpin.balancee.domain.transaction.service;
 
+import com.github.arthurscarpin.balancee.domain.category.model.CategoryType;
 import com.github.arthurscarpin.balancee.domain.transaction.model.Transaction;
-import com.github.arthurscarpin.balancee.domain.transaction.model.TransactionType;
 import com.github.arthurscarpin.balancee.domain.transaction.repository.TransactionRepository;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
 import jakarta.transaction.Transactional;
@@ -23,11 +23,7 @@ public class TransactionService {
     @Transactional
     public Transaction create(Transaction transaction) {
         if (transaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
-            if (transaction.getType() != TransactionType.INCOME && transaction.getType() != TransactionType.EXPENSE) {
-                throw new BusinessException("Invalid type!");
-            } else {
-                return repository.save(transaction);
-            }
+            return repository.save(transaction);
         } else {
             throw new BusinessException("Invalid amount! The amount must be greater than zero.");
         }
@@ -47,8 +43,8 @@ public class TransactionService {
         return transactionExists.orElseThrow(() -> new BusinessException("Transaction not found!"));
     }
 
-    public List<Transaction> findByUserIdAndType(Long userId, TransactionType type) {
-        if (!type.equals(TransactionType.INCOME) && !type.equals(TransactionType.EXPENSE)) {
+    public List<Transaction> findByUserIdAndType(Long userId, CategoryType type) {
+        if (!type.equals(CategoryType.INCOME) && !type.equals(CategoryType.EXPENSE)) {
             throw new BusinessException("Category mismatch! Please a valid category \"INCOME\" and \"EXPENSE\"");
         } else {
             Optional<List<Transaction>> transactionExists = repository.findByType(userId, type);
