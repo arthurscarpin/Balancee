@@ -1,6 +1,7 @@
 package com.github.arthurscarpin.balancee.domain.user.controller;
 
-import com.github.arthurscarpin.balancee.domain.user.model.User;
+import com.github.arthurscarpin.balancee.domain.user.dto.UserRequestDTO;
+import com.github.arthurscarpin.balancee.domain.user.dto.UserResponseDTO;
 import com.github.arthurscarpin.balancee.domain.user.service.UserService;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
 import org.springframework.http.HttpStatus;
@@ -20,9 +21,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPostUser(@RequestBody User user) {
+    public ResponseEntity<?> createPostUser(@RequestBody UserRequestDTO user) {
         try {
-            User userCreated = service.create(user);
+            UserResponseDTO userCreated = service.create(user);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(userCreated);
         } catch (BusinessException e) {
@@ -33,14 +34,14 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<?> findAllGetUsers() {
-        List<User> users = service.findAll();
+        List<UserResponseDTO> users = service.findAll();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findByIdGetUser(@PathVariable Long id) {
         try {
-            User user = service.findById(id);
+            UserResponseDTO user = service.findById(id);
             return ResponseEntity.ok(user);
         } catch (BusinessException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -49,9 +50,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateByIdPutUser(@PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<?> updateByIdPutUser(@PathVariable Long id, @RequestBody UserRequestDTO user) {
         try {
-            User userUpdated = service.updateById(id, user);
+            UserResponseDTO userUpdated = service.updateById(id, user);
             return ResponseEntity.ok(userUpdated);
         } catch (BusinessException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
