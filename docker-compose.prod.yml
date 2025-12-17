@@ -7,14 +7,16 @@ services:
     ports:
       - "${APP_PORT}:${APP_PORT}"
     environment:
-      - ENVIRONMENT=${ENVIRONMENT}
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - ENVIRONMENT=prod
+      - FLYWAY_ENABLE=${FLYWAY_ENABLE}
     depends_on:
       - postgres
+    command: ./wait-for-it.sh postgres:${POSTGRES_PORT} -t 30 -- java -jar /app/balancee.jar
 
   postgres:
     image: postgres:15

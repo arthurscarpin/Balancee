@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: balancee-app-dev
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    environment:
+      - ENVIRONMENT=dev
+      - SPRING_DATASOURCE_URL=${DATABASE_URL}
+      - SPRING_DATASOURCE_USERNAME=${DATABASE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - ./data:/app/data
