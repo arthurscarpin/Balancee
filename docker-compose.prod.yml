@@ -3,7 +3,7 @@ version: "3.9"
 services:
   app:
     build: .
-    container_name: balancee-app
+    container_name: balancee-app-prod
     ports:
       - "${APP_PORT}:${APP_PORT}"
     environment:
@@ -15,12 +15,12 @@ services:
       - ENVIRONMENT=prod
       - FLYWAY_ENABLE=${FLYWAY_ENABLE}
     depends_on:
-      - postgres
-    command: ./wait-for-it.sh postgres:${POSTGRES_PORT} -t 30 -- java -jar /app/balancee.jar
+      - database
+    command: ./wait-for-it.sh database:${POSTGRES_PORT} -t 30 -- java -jar /app/balancee.jar
 
-  postgres:
+  database:
     image: postgres:15
-    container_name: balancee-postgres
+    container_name: balancee-db
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     environment:
