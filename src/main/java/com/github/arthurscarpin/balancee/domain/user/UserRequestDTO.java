@@ -1,4 +1,4 @@
-package com.github.arthurscarpin.balancee.domain.user.dto;
+package com.github.arthurscarpin.balancee.domain.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

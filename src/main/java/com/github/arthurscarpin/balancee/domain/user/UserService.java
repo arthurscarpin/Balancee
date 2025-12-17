@@ -1,10 +1,5 @@
-package com.github.arthurscarpin.balancee.domain.user.service;
+package com.github.arthurscarpin.balancee.domain.user;
 
-import com.github.arthurscarpin.balancee.domain.user.dto.UserRequestDTO;
-import com.github.arthurscarpin.balancee.domain.user.dto.UserResponseDTO;
-import com.github.arthurscarpin.balancee.domain.user.mapper.UserMapper;
-import com.github.arthurscarpin.balancee.domain.user.model.User;
-import com.github.arthurscarpin.balancee.domain.user.repository.UserRepository;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,4 @@
-package com.github.arthurscarpin.balancee.domain.category.dto;
-
-import com.github.arthurscarpin.balancee.domain.category.model.CategoryType;
+package com.github.arthurscarpin.balancee.domain.category;
 
 public record CategoryResponseDTO(
         Long id,

@@ -1,15 +1,10 @@
-package com.github.arthurscarpin.balancee.domain.transaction.service;
+package com.github.arthurscarpin.balancee.domain.transaction;
 
-import com.github.arthurscarpin.balancee.domain.category.model.Category;
-import com.github.arthurscarpin.balancee.domain.category.model.CategoryType;
-import com.github.arthurscarpin.balancee.domain.category.repository.CategoryRepository;
-import com.github.arthurscarpin.balancee.domain.transaction.dto.TransactionRequestDTO;
-import com.github.arthurscarpin.balancee.domain.transaction.dto.TransactionResponseDTO;
-import com.github.arthurscarpin.balancee.domain.transaction.mapper.TransactionMapper;
-import com.github.arthurscarpin.balancee.domain.transaction.model.Transaction;
-import com.github.arthurscarpin.balancee.domain.transaction.repository.TransactionRepository;
-import com.github.arthurscarpin.balancee.domain.user.model.User;
-import com.github.arthurscarpin.balancee.domain.user.repository.UserRepository;
+import com.github.arthurscarpin.balancee.domain.category.Category;
+import com.github.arthurscarpin.balancee.domain.category.CategoryType;
+import com.github.arthurscarpin.balancee.domain.category.CategoryRepository;
+import com.github.arthurscarpin.balancee.domain.user.User;
+import com.github.arthurscarpin.balancee.domain.user.UserRepository;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,5 @@
-package com.github.arthurscarpin.balancee.domain.user.mapper;
+package com.github.arthurscarpin.balancee.domain.user;
 
-import com.github.arthurscarpin.balancee.domain.user.dto.UserRequestDTO;
-import com.github.arthurscarpin.balancee.domain.user.dto.UserResponseDTO;
-import com.github.arthurscarpin.balancee.domain.user.model.User;
 import org.springframework.stereotype.Component;
 
 @Component

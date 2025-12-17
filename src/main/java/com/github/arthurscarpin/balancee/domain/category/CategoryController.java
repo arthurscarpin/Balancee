@@ -1,8 +1,5 @@
-package com.github.arthurscarpin.balancee.domain.category.controller;
+package com.github.arthurscarpin.balancee.domain.category;
 
-import com.github.arthurscarpin.balancee.domain.category.dto.CategoryRequestDTO;
-import com.github.arthurscarpin.balancee.domain.category.dto.CategoryResponseDTO;
-import com.github.arthurscarpin.balancee.domain.category.service.CategoryService;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

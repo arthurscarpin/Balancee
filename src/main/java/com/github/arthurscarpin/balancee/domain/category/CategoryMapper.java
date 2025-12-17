@@ -1,8 +1,5 @@
-package com.github.arthurscarpin.balancee.domain.category.mapper;
+package com.github.arthurscarpin.balancee.domain.category;
 
-import com.github.arthurscarpin.balancee.domain.category.dto.CategoryRequestDTO;
-import com.github.arthurscarpin.balancee.domain.category.dto.CategoryResponseDTO;
-import com.github.arthurscarpin.balancee.domain.category.model.Category;
 import org.springframework.stereotype.Component;
 
 @Component

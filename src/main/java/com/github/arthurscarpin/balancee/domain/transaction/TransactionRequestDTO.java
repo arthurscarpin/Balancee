@@ -1,4 +1,4 @@
-package com.github.arthurscarpin.balancee.domain.transaction.dto;
+package com.github.arthurscarpin.balancee.domain.transaction;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

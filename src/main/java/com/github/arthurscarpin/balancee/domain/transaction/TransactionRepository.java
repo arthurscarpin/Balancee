@@ -1,7 +1,6 @@
-package com.github.arthurscarpin.balancee.domain.transaction.repository;
+package com.github.arthurscarpin.balancee.domain.transaction;
 
-import com.github.arthurscarpin.balancee.domain.category.model.CategoryType;
-import com.github.arthurscarpin.balancee.domain.transaction.model.Transaction;
+import com.github.arthurscarpin.balancee.domain.category.CategoryType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

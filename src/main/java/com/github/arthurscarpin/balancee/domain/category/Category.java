@@ -1,7 +1,7 @@
-package com.github.arthurscarpin.balancee.domain.category.model;
+package com.github.arthurscarpin.balancee.domain.category;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.arthurscarpin.balancee.domain.transaction.model.Transaction;
+import com.github.arthurscarpin.balancee.domain.transaction.Transaction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

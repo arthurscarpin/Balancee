@@ -1,6 +1,5 @@
-package com.github.arthurscarpin.balancee.domain.category.dto;
+package com.github.arthurscarpin.balancee.domain.category;
 
-import com.github.arthurscarpin.balancee.domain.category.model.CategoryType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

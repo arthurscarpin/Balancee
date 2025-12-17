@@ -1,7 +1,7 @@
-package com.github.arthurscarpin.balancee.domain.transaction.model;
+package com.github.arthurscarpin.balancee.domain.transaction;
 
-import com.github.arthurscarpin.balancee.domain.category.model.Category;
-import com.github.arthurscarpin.balancee.domain.user.model.User;
+import com.github.arthurscarpin.balancee.domain.category.Category;
+import com.github.arthurscarpin.balancee.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

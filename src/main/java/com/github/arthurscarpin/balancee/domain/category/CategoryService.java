@@ -1,11 +1,5 @@
-package com.github.arthurscarpin.balancee.domain.category.service;
+package com.github.arthurscarpin.balancee.domain.category;
 
-import com.github.arthurscarpin.balancee.domain.category.dto.CategoryRequestDTO;
-import com.github.arthurscarpin.balancee.domain.category.dto.CategoryResponseDTO;
-import com.github.arthurscarpin.balancee.domain.category.mapper.CategoryMapper;
-import com.github.arthurscarpin.balancee.domain.category.model.Category;
-import com.github.arthurscarpin.balancee.domain.category.model.CategoryType;
-import com.github.arthurscarpin.balancee.domain.category.repository.CategoryRepository;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

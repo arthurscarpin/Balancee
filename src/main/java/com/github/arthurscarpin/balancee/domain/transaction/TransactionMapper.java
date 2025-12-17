@@ -1,10 +1,7 @@
-package com.github.arthurscarpin.balancee.domain.transaction.mapper;
+package com.github.arthurscarpin.balancee.domain.transaction;
 
-import com.github.arthurscarpin.balancee.domain.category.model.Category;
-import com.github.arthurscarpin.balancee.domain.transaction.dto.TransactionRequestDTO;
-import com.github.arthurscarpin.balancee.domain.transaction.dto.TransactionResponseDTO;
-import com.github.arthurscarpin.balancee.domain.transaction.model.Transaction;
-import com.github.arthurscarpin.balancee.domain.user.model.User;
+import com.github.arthurscarpin.balancee.domain.category.Category;
+import com.github.arthurscarpin.balancee.domain.user.User;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,6 +1,5 @@
-package com.github.arthurscarpin.balancee.domain.user.repository;
+package com.github.arthurscarpin.balancee.domain.user;
 
-import com.github.arthurscarpin.balancee.domain.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

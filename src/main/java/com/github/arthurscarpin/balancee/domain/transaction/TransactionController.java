@@ -1,10 +1,6 @@
-package com.github.arthurscarpin.balancee.domain.transaction.controller;
+package com.github.arthurscarpin.balancee.domain.transaction;
 
-import com.github.arthurscarpin.balancee.domain.category.model.CategoryType;
-import com.github.arthurscarpin.balancee.domain.transaction.dto.TransactionRequestDTO;
-import com.github.arthurscarpin.balancee.domain.transaction.dto.TransactionResponseDTO;
-import com.github.arthurscarpin.balancee.domain.transaction.model.Transaction;
-import com.github.arthurscarpin.balancee.domain.transaction.service.TransactionService;
+import com.github.arthurscarpin.balancee.domain.category.CategoryType;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

@@ -1,8 +1,5 @@
-package com.github.arthurscarpin.balancee.domain.user.controller;
+package com.github.arthurscarpin.balancee.domain.user;
 
-import com.github.arthurscarpin.balancee.domain.user.dto.UserRequestDTO;
-import com.github.arthurscarpin.balancee.domain.user.dto.UserResponseDTO;
-import com.github.arthurscarpin.balancee.domain.user.service.UserService;
 import com.github.arthurscarpin.balancee.exception.BusinessException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
