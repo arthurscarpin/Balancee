@@ -128,7 +128,7 @@ public class TransactionController {
             summary = "Report total Expense.",
             description = "Calculate the total balance of Expense.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Value of Expense total banlance."),
+            @ApiResponse(responseCode = "200", description = "Value of Expense total amount."),
     })
     public ResponseEntity<?> calculateTotalExpenseGetTransaction(
             @PathVariable Long userId,
@@ -143,7 +143,7 @@ public class TransactionController {
             summary = "Report total Income.",
             description = "Calculate the total balance of Income.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Value of Income total banlance."),
+            @ApiResponse(responseCode = "200", description = "Value of Income total amount."),
     })
     public ResponseEntity<?> calculateTotalIncomeGetTransaction(
             @PathVariable Long userId,
