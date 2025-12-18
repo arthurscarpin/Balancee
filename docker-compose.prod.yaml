@@ -12,6 +12,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - ENVIRONMENT=prod
       - FLYWAY_ENABLE=${FLYWAY_ENABLE}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     depends_on:
       - database
     command: ./wait-for-it.sh database:${POSTGRES_PORT} -t 30 -- java -jar /app/balancee.jar
